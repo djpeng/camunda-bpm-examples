@@ -21,6 +21,7 @@ import org.camunda.bpm.engine.runtime.ProcessInstance;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 
 /**
  * @author Thorben Lindhauer
@@ -29,14 +30,23 @@ import org.springframework.beans.factory.annotation.Autowired;
 public abstract class AbstractTest {
 
   @Autowired
+  private ApplicationContext context;
+
+  @Autowired
   private ProcessEngine processEngine;
 
   @Autowired
   private RuntimeService runtimeService;
 
+  protected String engineName;
 
   @Test
-  @Ignore
+  public void testContext() {
+    System.out.println(context);
+  }
+
+  @Test
+//  @Ignore
   public void test() {
       // do
       ProcessInstance instance = runtimeService.startProcessInstanceByKey("Sample");
@@ -56,7 +66,11 @@ public abstract class AbstractTest {
   @Test
   public void testEngineName()
   {
-    assertThat(processEngine.getName()).isEqualTo("default");
+    assertThat(processEngine.getName()).isEqualTo(engineName);
 
+  }
+
+  public ProcessEngine getProcessEngine() {
+    return processEngine;
   }
 }

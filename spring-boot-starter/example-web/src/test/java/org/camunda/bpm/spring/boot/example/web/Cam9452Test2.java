@@ -12,8 +12,11 @@
  */
 package org.camunda.bpm.spring.boot.example.web;
 
+import org.junit.Before;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -21,5 +24,13 @@ import org.springframework.test.context.junit4.SpringRunner;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @ActiveProfiles("test")
+//@TestPropertySource(properties = {"spring.datasource.generate-unique-name=true"})
+//@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
 public class Cam9452Test2 extends AbstractTest {
+
+  @Before
+  public void setUp() {
+    this.engineName = "default";
+  }
+
 }

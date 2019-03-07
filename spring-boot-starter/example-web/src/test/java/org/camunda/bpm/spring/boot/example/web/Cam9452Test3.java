@@ -12,8 +12,10 @@
  */
 package org.camunda.bpm.spring.boot.example.web;
 
+import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -21,6 +23,13 @@ import org.springframework.test.context.junit4.SpringRunner;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @ActiveProfiles("test")
-@TestPropertySource(properties = {"camunda.bpm.process-engine-name=foo"})
+//@TestPropertySource(properties = {"camunda.bpm.process-engine-name=foo","foo=bar"})
+@TestPropertySource(properties = {"foo=bar"})
+//@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
 public class Cam9452Test3 extends AbstractTest {
+
+  @Before
+  public void setUp() {
+    this.engineName = "foo";
+  }
 }
