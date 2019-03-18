@@ -1,0 +1,93 @@
+<form>
+  <div id='reactContainer' />
+
+  <script cam-script type="text/form-script">
+
+    // Fetch Variables and create new ones
+    camForm.on('form-loaded', function () {
+      camForm.variableManager.createVariable({
+        'name': 'isGoing',
+        'type': 'Boolean',
+        'value': true,
+        isDirty: true
+      });
+      camForm.variableManager.createVariable({
+        'name': 'numberOfGuests',
+        'type': 'Integer',
+        'value': 2,
+        isDirty: true
+      });
+
+      camForm.variableManager.fetchVariable('guestName');
+    });
+
+    camForm.on('variables-applied', function () {
+      renderReactForm();
+    });
+
+    // Render React here
+    function renderReactForm() {
+      const container = document.getElementById('reactContainer');
+
+      const e = React.createElement;
+
+      class Reservation extends React.Component {
+        constructor(props) {
+          super(props);
+          this.state = {
+            isGoing: props.isGoing.value,
+            numberOfGuests: props.numberOfGuests.value
+          };
+
+          this.handleInputChange = this.handleInputChange.bind(this);
+
+        }
+
+        handleInputChange(event) {
+          const target = event.target;
+          const value = target.type === 'checkbox' ? target.checked : target.value;
+          const name = target.name;
+
+          this.setState({
+            [name]: value
+          });
+        }
+
+        componentDidUpdate() {
+          $scope.$$camForm.$dirty = true;
+          camForm.variableManager.variableValue('isGoing', this.state.isGoing);
+          camForm.variableManager.variableValue('numberOfGuests', this.state.numberOfGuests);
+        }
+
+        render() {
+          return e("div", {className: 'form-group'}, [
+            e("h3", null, [
+              "Hello " + this.props.guestName.value]),
+            e("br"),
+            e("label", null, ["I am going:",
+              e("input", {
+                className: "form-control",
+                name: "isGoing",
+                type: "checkbox",
+                checked: this.state.isGoing,
+                onChange: this.handleInputChange
+              })]),
+            e("br"),
+            e("label", null, ["Number of guests:",
+              e("input", {
+                className: "form-control",
+                name: "numberOfGuests",
+                type: "number",
+                value: this.state.numberOfGuests,
+                onChange: this.handleInputChange
+              })])
+          ]);
+        }
+      }
+      
+      ReactDOM.render(e(Reservation,
+          camForm.variableManager.variables ),
+        container);
+    }
+  </script>
+</form>

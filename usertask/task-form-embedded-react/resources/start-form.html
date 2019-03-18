@@ -1,0 +1,52 @@
+<form>
+    <div id='reactContainer' />
+    
+    <script cam-script type="text/form-script">
+    const container = document.getElementById('reactContainer');
+
+    const e = React.createElement;
+
+    class Invitation extends React.Component {
+      constructor(props) {
+        super(props);
+        this.state = {value: ''};
+
+        this.handleInputChange = this.handleInputChange.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
+
+        // Register submit
+        camForm.on("submit", evt => {
+          this.handleSubmit(evt);                
+        });
+      }
+
+      handleInputChange(event) {
+        this.setState({value: event.target.value});
+      }
+
+      handleSubmit(event) {
+        camForm.variableManager.createVariable({
+          'name': 'guestName',
+          'type': 'String',
+          'value': this.state.value,
+          isDirty: true}
+        );
+      }
+
+      render() {
+        return e("div", {className: 'form-group'}, [
+          e("label", null, ["I want to Invite: ", 
+            e("input", {
+              className: "form-control",
+              name: "Value",
+              type: "text",
+              value: this.state.value,
+              onChange: this.handleInputChange
+            })])
+        ]);
+      }
+    }
+
+    ReactDOM.render(e(Invitation), container);
+    </script>
+  </form>
