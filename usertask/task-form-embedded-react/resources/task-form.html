@@ -1,7 +1,7 @@
 <form>
   <div id='reactContainer' />
 
-  <script cam-script type="text/form-script">
+  <script cam-script type='text/form-script'>
 
     // Fetch Variables and create new ones
     camForm.on('form-loaded', function () {
@@ -60,24 +60,24 @@
         }
 
         render() {
-          return e("div", {className: 'form-group'}, [
-            e("h3", null, [
-              "Hello " + this.props.guestName.value]),
-            e("br"),
-            e("label", null, ["I am going:",
-              e("input", {
-                className: "form-control",
-                name: "isGoing",
-                type: "checkbox",
+          return e('div', {className: 'form-group'}, [
+            e('h3', null, [
+              'Hello ' + this.props.guestName.value]),
+            e('br'),
+            e('label', null, ['I am going:',
+              e('input', {
+                className: 'form-control',
+                name: 'isGoing',
+                type: 'checkbox',
                 checked: this.state.isGoing,
                 onChange: this.handleInputChange
               })]),
-            e("br"),
-            e("label", null, ["Number of guests:",
-              e("input", {
-                className: "form-control",
-                name: "numberOfGuests",
-                type: "number",
+            e('br'),
+            e('label', null, ['Number of guests:',
+              e('input', {
+                className: 'form-control',
+                name: 'numberOfGuests',
+                type: 'number',
                 value: this.state.numberOfGuests,
                 onChange: this.handleInputChange
               })])

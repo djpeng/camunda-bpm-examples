@@ -1,23 +1,22 @@
 # Creating custom Forms using React
-React is a popular library to build user interfaces. If you want to use react to build custom tasklist forms, you can use this example as a starting point. We adapted the [React Multiple Inputs Example](https://reactjs.org/docs/forms.html#handling-multiple-inputs) and integrated it into the process.
+React is a popular library to build user interfaces. If you want to use react to build custom tasklist forms, you can use this example as a starting point. We adapted the [React Multiple Inputs Example](https://reactjs.org/docs/forms.html#handling-multiple-inputs) and integrated it into a process.
 
 ## Overview
 ### How can I add React to my Tasklist?
-First, download react and reactDOM to the `app/tasklist/scripts/react` in your Camunda webapp .war file. The `loadReact.js` script adds them to the global scope.
-Finally, add them as custom scripts in `app/tasklist/scripts/config.js`:
-
-```
-  customScripts: {
-    ngDeps: [],
-    deps: ['loadReact', 'react', 'react-dom'],
-    paths: {
-      'loadReact': 'scripts/react/loadReact',
-      'react': 'scripts/react/react.development',
-      'react-dom': 'scripts/react/react-dom.development'
+  1. Download [React](https://unpkg.com/react/umd/) and [reactDOM](https://unpkg.com/react-dom/umd/) into the `app/tasklist/scripts/react` of your webapp.
+  2. Add (loadReact.js)[resources/app/tasklist/scripts/react/loadReact.js] to the same folder. This will add React and ReactDOM to the global scope
+  3. Add everything as a custom script in `app/tasklist/scripts/config.js`. If you use the production build of react, change the path accordingly.
+  ```
+    customScripts: {
+      ngDeps: [],
+      deps: ['loadReact', 'react', 'react-dom'],
+      paths: {
+        'loadReact': 'scripts/react/loadReact',
+        'react': 'scripts/react/react.development',
+        'react-dom': 'scripts/react/react-dom.development'
+      }
     }
-  }
-```
-
+  ```
 That's it, you can now use react in your custom forms.
 
 ### How can I get access to process variables?

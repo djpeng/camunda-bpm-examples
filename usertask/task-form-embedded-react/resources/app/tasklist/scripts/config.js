@@ -36,7 +36,6 @@ window.camTasklistConf = {
   // // custom libraries and scripts loading and initialization,
   // // see: http://docs.camunda.org/guides/user-guide/#tasklist-customizing-custom-scripts
   customScripts: {
-    // AngularJS module names
     ngDeps: [],
     // RequireJS configuration for a complete configuration documentation see:
     // http://requirejs.org/docs/api.html#config

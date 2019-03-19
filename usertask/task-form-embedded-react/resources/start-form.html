@@ -1,7 +1,7 @@
 <form>
     <div id='reactContainer' />
     
-    <script cam-script type="text/form-script">
+    <script cam-script type='text/form-script'>
     const container = document.getElementById('reactContainer');
 
     const e = React.createElement;
@@ -15,7 +15,7 @@
         this.handleSubmit = this.handleSubmit.bind(this);
 
         // Register submit
-        camForm.on("submit", evt => {
+        camForm.on('submit', evt => {
           this.handleSubmit(evt);                
         });
       }
@@ -34,12 +34,12 @@
       }
 
       render() {
-        return e("div", {className: 'form-group'}, [
-          e("label", null, ["I want to Invite: ", 
-            e("input", {
-              className: "form-control",
-              name: "Value",
-              type: "text",
+        return e('div', {className: 'form-group'}, [
+          e('label', null, ['I want to Invite: ', 
+            e('input', {
+              className: 'form-control',
+              name: 'Value',
+              type: 'text',
               value: this.state.value,
               onChange: this.handleInputChange
             })])
