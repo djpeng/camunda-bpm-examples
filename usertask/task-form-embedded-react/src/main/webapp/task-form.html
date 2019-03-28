@@ -1,4 +1,4 @@
-<form>
+<form class='form-horizontal'>
   <div id='reactContainer' />
 
   <script cam-script type='text/form-script'>
@@ -6,19 +6,17 @@
     // Fetch Variables and create new ones
     camForm.on('form-loaded', function () {
       camForm.variableManager.createVariable({
-        'name': 'isGoing',
+        'name': 'approved',
         'type': 'Boolean',
-        'value': true,
-        isDirty: true
-      });
-      camForm.variableManager.createVariable({
-        'name': 'numberOfGuests',
-        'type': 'Integer',
-        'value': 2,
+        'value': false,
         isDirty: true
       });
 
-      camForm.variableManager.fetchVariable('guestName');
+      camForm.variableManager.fetchVariable('amount');
+      camForm.variableManager.fetchVariable('creditor');
+      camForm.variableManager.fetchVariable('invoiceID');
+      camForm.variableManager.fetchVariable('invoiceDocument');
+      camForm.variableManager.fetchVariable('category');
     });
 
     camForm.on('variables-applied', function () {
@@ -31,61 +29,83 @@
 
       const e = React.createElement;
 
-      class Reservation extends React.Component {
+      class DisplayGroup extends React.Component {
+        render() {
+          return e('div', {className: 'form-group'}, [
+            e('label', {className: 'control-label col-md-4'}, this.props.label),
+            e('div', {className: 'col-md-6'},
+              e('input', {
+                className: 'form-control',
+                value: this.props.value,
+                readOnly: true
+              }))
+            ]);
+        }
+      }
+
+      class Approval extends React.Component {
         constructor(props) {
           super(props);
           this.state = {
-            isGoing: props.isGoing.value,
-            numberOfGuests: props.numberOfGuests.value
+            value: false,
           };
-
           this.handleInputChange = this.handleInputChange.bind(this);
-
         }
 
         handleInputChange(event) {
           const target = event.target;
           const value = target.type === 'checkbox' ? target.checked : target.value;
-          const name = target.name;
+
+          camForm.variableManager.variableValue('approved', value);
 
           this.setState({
-            [name]: value
+            value: value
           });
         }
 
-        componentDidUpdate() {
-          $scope.$$camForm.$dirty = true;
-          camForm.variableManager.variableValue('isGoing', this.state.isGoing);
-          camForm.variableManager.variableValue('numberOfGuests', this.state.numberOfGuests);
-        }
-
         render() {
-          return e('div', {className: 'form-group'}, [
-            e('h3', null, [
-              'Hello ' + this.props.guestName.value]),
+          return e('div', null, [
+            e('h3', null, 'Do you approve this Invoice?'),
             e('br'),
-            e('label', null, ['I am going:',
+            e('div', {className: 'form-group'}, [
+              e('label', {className: 'control-label col-md-4'}, 'Download Invoice'),
+              e('div', {className: 'col-md-6'},
+                e('a', {href: this.props.invoiceDocument.contentUrl}, 'invoice.pdf'))
+            ]),
+            e('br'),
+            e(DisplayGroup, {
+              label: 'Amount: ',
+              value: this.props.amount.value
+            }),
+            e(DisplayGroup, {
+              label: 'Creditor: ',
+              value: this.props.creditor.value
+            }),
+            e(DisplayGroup, {
+              label: 'Invoice Category: ',
+              value: this.props.category.value
+            }),
+            e(DisplayGroup, {
+              label: 'Invoice Number: ',
+              value: this.props.invoiceID.value
+            }),
+            e('br'),
+            e('label', {className: 'control-label col-md-4'}, 'I approve this Invoice'),
+            e('div', {className: 'col-md-6'},[
               e('input', {
                 className: 'form-control',
-                name: 'isGoing',
+                name: 'approved',
                 type: 'checkbox',
-                checked: this.state.isGoing,
-                onChange: this.handleInputChange
-              })]),
-            e('br'),
-            e('label', null, ['Number of guests:',
-              e('input', {
+                checked: this.state.value,
                 className: 'form-control',
-                name: 'numberOfGuests',
-                type: 'number',
-                value: this.state.numberOfGuests,
                 onChange: this.handleInputChange
-              })])
+              })
+            ])
           ]);
         }
       }
-      
-      ReactDOM.render(e(Reservation,
+
+      ReactDOM.render(e(Approval,
           camForm.variableManager.variables ),
         container);
     }
